@@ -1,0 +1,375 @@
+/* --- CSS VARIABLES & MASTERPIECE SETUP --- */
+:root {
+    --font-primary: 'Inter', sans-serif;
+    --font-heading: 'Playfair Display', serif; /* More elegant, book-like font */
+    --transition-buttery: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smooth as butter */
+
+    /* Dark Mode (Default) - Philosopher's Desk at Night */
+    --color-bg: #111111;
+    --color-surface: #1a1a1a;
+    --color-border: #2f2f2f;
+    --color-text-primary: #e0e0e0;
+    --color-text-secondary: #a0a0a0;
+    --color-accent: #D4AF37; /* Golden Yellow for a magical touch */
+    --color-glow: rgba(212, 175, 55, 0.15);
+    --shadow-color: rgba(0, 0, 0, 0.5);
+
+    /* Light Mode - Artist's Sketchbook */
+    --light-bg: #F8F5F2; /* Off-white, paper-like */
+    --light-surface: #FFFFFF;
+    --light-border: #e0dcd7;
+    --light-text-primary: #333333;
+    --light-text-secondary: #656565;
+    --light-accent: #B8860B; /* A more subdued, elegant gold */
+    --light-glow: rgba(184, 134, 11, 0.1);
+    --light-shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode {
+    --color-bg: var(--light-bg);
+    --color-surface: var(--light-surface);
+    --color-border: var(--light-border);
+    --color-text-primary: var(--light-text-primary);
+    --color-text-secondary: var(--light-text-secondary);
+    --color-accent: var(--light-accent);
+    --color-glow: var(--light-glow);
+    --shadow-color: var(--light-shadow-color);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: var(--font-primary);
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    line-height: 1.7;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+}
+
+/* --- TYPOGRAPHY & GENERAL STYLES --- */
+h1, h2, h3 { font-family: var(--font-heading); color: var(--color-text-primary); font-weight: 700; }
+h1 { font-size: 4.5rem; letter-spacing: 1px; }
+h2 { font-size: 2.8rem; margin-bottom: 1.5rem; text-align: center; }
+h3 { font-size: 1.5rem; color: var(--color-text-primary); margin-bottom: 0.5rem; }
+p { font-size: 1.1rem; color: var(--color-text-secondary); }
+
+/* --- HERO SECTION & MAGICAL BACKGROUND --- */
+.hero {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 100vh;
+    padding: 2rem;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 50%, rgba(26, 26, 26, 0.2) 0%, var(--color-bg) 70%);
+}
+.hero-content { z-index: 2; }
+.animate-title { animation: fadeInDown 1s ease-out; }
+.tagline { font-size: 1.5rem; margin: 1rem 0 2rem; color: var(--color-text-secondary); min-height: 2.25rem; animation: fadeInUp 1s ease-out 0.5s backwards; }
+.cta-button {
+    display: inline-block;
+    padding: 14px 32px;
+    background-color: transparent;
+    color: var(--color-accent);
+    border: 2px solid var(--color-accent);
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: var(--transition-buttery);
+    animation: fadeInUp 1s ease-out 1s backwards;
+}
+.cta-button:hover { background-color: var(--color-accent); color: var(--color-bg); transform: translateY(-5px) scale(1.05); box-shadow: 0 10px 20px var(--color-glow); }
+
+.magic-dust { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+.magic-dust::after {
+    content: '';
+    position: absolute;
+    width: 200vw;
+    height: 200vh;
+    top: -50vh;
+    left: -50vw;
+    background-image: radial-gradient(circle, var(--color-accent) 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0.05;
+    animation: zoom-in-out 60s linear infinite;
+}
+
+@keyframes zoom-in-out {
+    0%, 100% { transform: scale(0.5); }
+    50% { transform: scale(1); }
+}
+
+/* --- THEME TOGGLE --- */
+.theme-switch-wrapper { position: fixed; top: 20px; right: 20px; z-index: 100; }
+.theme-switch { display: inline-block; height: 26px; position: relative; width: 50px; }
+.theme-switch input { display: none; }
+.slider { background-color: var(--color-surface); border: 1px solid var(--color-border); bottom: 0; cursor: pointer; left: 0; position: absolute; right: 0; top: 0; transition: .4s; }
+.slider:before { background-color: var(--color-text-secondary); bottom: 3px; content: ""; height: 18px; left: 4px; position: absolute; transition: .4s; width: 18px; }
+input:checked + .slider { background-color: var(--color-accent); }
+input:checked + .slider:before { transform: translateX(23px); }
+.slider.round { border-radius: 34px; }
+.slider.round:before { border-radius: 50%; }
+
+/* --- CONTENT SECTIONS --- */
+.content-section { max-width: 900px; margin: 6rem auto; padding: 2rem; opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+.content-section.is-visible { opacity: 1; transform: translateY(0); }
+
+/* --- MODELS GRID & FILTER BAR --- */
+.models-section { padding: 4rem 2rem; max-width: 1800px; margin: 0 auto; }
+.filter-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 3rem; }
+.filter-btn {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    padding: 8px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition-buttery);
+}
+.filter-btn:hover { color: var(--color-accent); border-color: var(--color-accent); }
+.filter-btn.active { color: var(--color-bg); background-color: var(--color-accent); border-color: var(--color-accent); }
+
+.models-container { position: relative; display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2.5rem; }
+.model-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+    cursor: pointer;
+    transition: var(--transition-buttery);
+    position: relative;
+    overflow: hidden;
+    opacity: 1; /* managed by JS */
+}
+.model-card.card-hidden { transform: scale(0.8); opacity: 0; pointer-events: none; }
+
+.model-card:before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, var(--color-glow) 0%, transparent 40%);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    transform: scale(0);
+}
+.model-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: var(--color-accent);
+    box-shadow: 0 25px 50px var(--shadow-color);
+}
+.model-card:hover:before { opacity: 1; transform: scale(1); }
+.card-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; }
+.card-header .icon { color: var(--color-accent); flex-shrink: 0; }
+.card-title { font-size: 1.35rem; color: var(--color-text-primary); margin: 0; }
+.card-definition { font-size: 1rem; color: var(--color-text-secondary); }
+
+/* --- CONNECTION LINES --- */
+.connections-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+.connection-line { stroke: var(--color-accent); stroke-width: 1; opacity: 0.2; stroke-dasharray: 4; animation: dash 40s linear infinite; filter: drop-shadow(0 0 3px var(--color-accent)); }
+@keyframes dash { to { stroke-dashoffset: 1000; } }
+
+/* --- MODAL --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);
+    display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s;
+}
+.modal-overlay.show { opacity: 1; visibility: visible; }
+.modal-content {
+    background-color: var(--color-surface); padding: 3rem; border-radius: 15px; border: 1px solid var(--color-border);
+    max-width: 750px; width: 90%; position: relative; transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.modal-overlay.show .modal-content { transform: scale(1); }
+.close-modal { position: absolute; top: 15px; right: 20px; background: none; border: none; color: var(--color-text-secondary); font-size: 2.5rem; cursor: pointer; transition: color 0.2s ease, transform 0.2s ease; }
+.close-modal:hover { color: var(--color-text-primary); transform: rotate(90deg); }
+#modal-body h2 { text-align: left; font-size: 2.2rem; color: var(--color-accent); }
+#modal-body p { margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--color-text-primary); }
+#modal-body h3 { margin-top: 2.5rem; font-size: 1.2rem; border-left: 3px solid var(--color-accent); padding-left: 15px; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+#modal-body ul { list-style: none; padding-left: 0; }
+#modal-body li { background-color: var(--color-bg); padding: 1.2rem; border-radius: 8px; margin-bottom: 0.7rem; border-left: 2px solid var(--color-border); transition: border-color 0.3s ease; }
+#modal-body li:hover { border-color: var(--color-accent); }
+
+/* --- FOOTER --- */
+.site-footer { text-align: center; padding: 3rem; margin-top: 6rem; border-top: 1px solid var(--color-border); color: var(--color-text-secondary); }
+
+/* --- KEYFRAME ANIMATIONS --- */
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+/* --- RESPONSIVENESS --- */
+@media (max-width: 768px) {
+    h1 { font-size: 2.8rem; }
+    .tagline { font-size: 1.2rem; }
+    h2 { font-size: 2.2rem; }
+    .models-container { grid-template-columns: 1fr; gap: 1.5rem; }
+    .models-section { padding: 2rem 1rem; }
+    .content-section, .filter-bar { padding: 1rem; }
+    .modal-content { padding: 2rem; }
+}
+/* --- Refined Footer with Promo --- */
+.site-footer-promo {
+    padding: 4rem 5% 2rem;
+    background-color: var(--color-card-bg);
+    border-top: 1px solid var(--color-border);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    gap: 3rem;
+    text-align: center;
+}
+
+.promo-card {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    max-width: 400px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.promo-card h2 {
+    font-family: var(--font-secondary);
+    font-size: 1.8rem;
+    color: var(--color-primary);
+}
+
+.promo-subtitle {
+    font-size: 1rem;
+    opacity: 0.8;
+    margin: 1rem 0 1.5rem;
+}
+
+.promo-button {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background-color: var(--color-primary);
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 50px;
+    transition: background-color var(--transition-speed-fast), transform 0.2s var(--ease-out-cubic);
+}
+
+.promo-button:hover {
+    background-color: var(--color-accent);
+    transform: scale(1.05);
+}
+
+.footer-note {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.tagline {
+    font-style: italic;
+    opacity: 0.7;
+}
+
+.creator-credit {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+.social-links a {
+    color: var(--color-text);
+    transition: color var(--transition-speed-fast), transform var(--transition-speed-fast);
+}
+
+.social-links a:hover {
+    color: var(--color-primary);
+    transform: scale(1.15) translateY(-2px);
+}
+
+.copyright {
+    font-size: 0.85rem;
+    opacity: 0.6;
+    margin-top: 1rem;
+}
+
+/* Adjust layout on smaller screens */
+@media (max-width: 768px) {
+    .site-footer-promo {
+        flex-direction: column;
+        padding-top: 3rem;
+    }
+}
+/* --- Standalone & Robust Cursor Clock --- */
+
+/* 1. Hide the default cursor everywhere */
+body, a, button, [onclick], input {
+    cursor: none;
+}
+
+/* 2. Style the clock to override potential conflicts */
+#cursor-clock {
+    /* Positioning & Stacking Fix */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999999; /* Extremely high z-index to stay on top */
+    pointer-events: none; /* Allows clicks to pass through */
+    
+    /* Visibility & Color Fix (using hardcoded colors) */
+    width: 35px;
+    height: 35px;
+    border: 2px solid #cdaa7c; /* Gold color */
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1); /* Faint background for visibility */
+    
+    /* Blur Fix */
+    filter: none !important; /* Attempt to override any inherited blur */
+    backdrop-filter: blur(2px);
+
+    /* Animation */
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+}
+
+/* 3. Style the hands with hardcoded colors */
+.hand {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform-origin: bottom;
+}
+
+.hour-hand {
+    width: 3px;
+    height: 8px;
+    background-color: #121212; /* Black color for light mode */
+    transform: translateX(-50%);
+}
+
+.minute-hand {
+    width: 2px;
+    height: 12px;
+    background-color: #121212; /* Black color for light mode */
+    transform: translateX(-50%);
+}
+
+.second-hand {
+    width: 1px;
+    height: 14px;
+    background-color: #d94848; /* Crimson red color */
+    transform: translateX(-50%);
+}
+
+/* 4. Optional: Interaction effect */
+body:has(a:hover, button:hover) #cursor-clock {
+    width: 50px;
+    height: 50px;
+}
